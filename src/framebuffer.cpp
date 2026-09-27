@@ -13,7 +13,7 @@ void Framebuffer::destroy() {
     if (m_fbo)      { glDeleteFramebuffers(1, &m_fbo);  m_fbo = 0; }
 }
 
-void Framebuffer:create() {
+void Framebuffer::create() {
     glGenFramebuffers(1, &m_fbo);
     glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
 
