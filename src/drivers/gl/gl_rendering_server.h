@@ -1,6 +1,6 @@
 #pragma once
-#include "rendering_server.h"
-#include "shader.h"
+#include "servers/rendering_server.h"
+#include "drivers/gl/shader.h"
 #include <GL/glew.h>
 #include <memory>
 #include <vector>

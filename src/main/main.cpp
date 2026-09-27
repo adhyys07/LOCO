@@ -1,6 +1,7 @@
-#include "engine.h"
-#include "sprite2d.h"
-#include "input.h"
+#include "main/engine.h"
+#include "core/project.h"
+#include "scene/sprite2d.h"
+#include "platform/input.h"
 #include <SDL2/SDL.h>
 #include <memory>
 

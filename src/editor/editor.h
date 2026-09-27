@@ -1,5 +1,5 @@
 #pragma once
-#include "scene_tree.h"
+#include "scene/scene_tree.h"
 #include <string>
 #include <vector>
 

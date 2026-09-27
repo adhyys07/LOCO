@@ -1,7 +1,7 @@
 #pragma once
-#include "node.h"
-#include "sprite2d.h"
-#include "rendering_server.h"
+#include "scene/node.h"
+#include "scene/sprite2d.h"
+#include "servers/rendering_server.h"
 #include <memory>
 
 class SceneTree {

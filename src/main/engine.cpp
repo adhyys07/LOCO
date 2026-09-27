@@ -1,7 +1,7 @@
-#include "engine.h"
-#include "gl_rendering_server.h"
-#include "framebuffer.h"
-#include "input.h"
+#include "main/engine.h"
+#include "drivers/gl/gl_rendering_server.h"
+#include "drivers/gl/framebuffer.h"
+#include "platform/input.h"
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
 #include <iostream>
@@ -10,7 +10,9 @@ Engine::Engine(const std::string& title, int width, int height)
     : m_title(title), m_width(width), m_height(height) {}
 
 Engine::~Engine() {
+#ifdef LOCO_EDITOR_ENABLED
     m_editor.shutdown();
+#endif
     m_framebuffer.reset();
     m_server.reset();
     if (m_glContext) SDL_GL_DeleteContext((SDL_GLContext)m_glContext);
@@ -54,10 +56,14 @@ bool Engine::init(bool enable_editor) {
     m_server = std::make_unique<GLRenderingServer>(m_width, m_height);
     m_framebuffer = std::make_unique<Framebuffer>(m_width, m_height);
 
+#ifdef LOCO_EDITOR_ENABLED
     if (m_editorEnabled && !m_editor.init(m_window, m_glContext)) {
         std::cerr << "Editor init failed; running without it." << std::endl;
         m_editorEnabled = false;
     }
+#else
+    m_editorEnabled = false;   // editor not compiled into this build
+#endif
     if (!m_editorEnabled) m_tree.set_paused(false);
     return true;
 }
@@ -79,7 +85,9 @@ void Engine::run() {
         Input::beginFrame();
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
+#ifdef LOCO_EDITOR_ENABLED
             if (m_editorEnabled) m_editor.process_event(event);
+#endif
             if (event.type == SDL_QUIT) m_running = false;
             if (event.type == SDL_WINDOWEVENT &&
                 event.window.event == SDL_WINDOWEVENT_RESIZED) {
@@ -97,6 +105,7 @@ void Engine::run() {
             accumulator -= FIXED_DT;
         }
 
+#ifdef LOCO_EDITOR_ENABLED
         if (m_editorEnabled) {
             // Game renders into the framebuffer, sized to the Viewport panel.
             int vw = m_editor.viewport_width();
@@ -112,7 +121,9 @@ void Engine::run() {
             glClearColor(0.06f, 0.06f, 0.07f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
             m_editor.render();
-        } else {
+        } else
+#endif
+        {
             m_server->set_viewport(m_width, m_height);
             glViewport(0, 0, m_width, m_height);
             m_server->clear_screen(Color(0.11f, 0.11f, 0.13f, 1.0f));

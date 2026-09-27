@@ -1,7 +1,7 @@
-#include "editor.h"
-#include "node2d.h"
-#include "sprite2d.h"
-#include "framebuffer.h"
+#include "editor/editor.h"
+#include "scene/node2d.h"
+#include "scene/sprite2d.h"
+#include "drivers/gl/framebuffer.h"
 
 #include "imgui.h"
 #include "imgui_internal.h"          // for the dock-builder API

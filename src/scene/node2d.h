@@ -1,6 +1,6 @@
 #pragma once
-#include "node.h"
-#include "math2d.h"
+#include "scene/node.h"
+#include "core/math2d.h"
 
 class Node2D : public Node {
 public:

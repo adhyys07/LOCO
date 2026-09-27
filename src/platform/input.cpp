@@ -1,4 +1,4 @@
-#include "input.h"
+#include "platform/input.h"
 
 std::unordered_map<SDL_Keycode, bool> Input::s_down;
 std::unordered_map<SDL_Keycode, bool> Input::s_pressed;

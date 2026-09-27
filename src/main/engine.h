@@ -1,8 +1,10 @@
 #pragma once
 #include <memory>
 #include <string>
-#include "scene_tree.h"
-#include "editor.h"
+#include "scene/scene_tree.h"
+#ifdef LOCO_EDITOR_ENABLED
+#include "editor/editor.h"
+#endif
 
 struct SDL_Window;
 class GLRenderingServer;
@@ -15,7 +17,9 @@ public:
     bool init(bool enable_editor = true);
     void run();
     SceneTree& get_tree() { return m_tree; }
+#ifdef LOCO_EDITOR_ENABLED
     Editor& get_editor() { return m_editor; }
+#endif
     GLRenderingServer* get_rendering_server() { return m_server.get(); }
 private:
     std::string m_title;
@@ -25,7 +29,9 @@ private:
     std::unique_ptr<GLRenderingServer> m_server;
     std::unique_ptr<Framebuffer> m_framebuffer;
     SceneTree m_tree;
+#ifdef LOCO_EDITOR_ENABLED
     Editor m_editor;
+#endif
     bool m_editorEnabled = true;
     bool m_running = false;
 };
